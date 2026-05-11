@@ -34,17 +34,45 @@ def build_super():
             raise ValueError(f"Size mismatch for {name}: expected {expected_size}, got {len(data)}")
         images.append(data)
 
+    # Build partition table (array of lp_partition entries)
     partition_table = b""
     for idx, (name, filename, size) in enumerate(PARTITIONS):
         name_bytes = name.encode("ascii") + b"\x00" * (36 - len(name))
         attributes = 0
-        first_extent_index = idx # One extent per partition
+        first_extent_index = idx  # index into the extents array (written later)
         num_extents = 1
         reserved = b"\x00" * 80
         entry = struct.pack("<36sIII80s", name_bytes, attributes, first_extent_index, num_extents, reserved)
         partition_table += entry
 
+    # Pad partition table to a full block (4096 bytes)
     partition_table += b"\x00" * (BLOCK_SIZE - len(partition_table))
+
+    # Build extents array (one lp_extent per partition)
+    # Each extent: num_sectors (8 bytes), target_type (4 bytes), target_data (4 bytes)
+    # target_type = 0 for linear mapping
+    # target_data = starting sector (in 512‑byte sectors) relative to super partition start
+    # We'll compute the starting sector after header + table + extents + padding
+    extents = b""
+    # The data will start after header (4096) + table (4096) + extents (3*16=48) + padding to block boundary
+    # Compute the offset where the first partition's data will begin
+    data_offset = LP_HEADER_SIZE + len(partition_table) + 3 * 16  # 4096+4096+48 = 8240
+    # Align to block size
+    if data_offset % BLOCK_SIZE != 0:
+        data_offset += BLOCK_SIZE - (data_offset % BLOCK_SIZE)
+    data_start_sector = data_offset // 512  # in 512‑byte sectors
+
+    for idx, (name, filename, size) in enumerate(PARTITIONS):
+        num_sectors = size // 512
+        target_type = 0
+        target_data = data_start_sector  # starting sector for this partition
+        extents += struct.pack("<QII", num_sectors, target_type, target_data)
+        # Advance data_start_sector for the next partition
+        data_start_sector += num_sectors
+
+    # Pad extents to block boundary (so that image data starts at a block boundary)
+    extents_padding = (BLOCK_SIZE - (len(extents) % BLOCK_SIZE)) % BLOCK_SIZE
+    extents += b"\x00" * extents_padding
 
     total_sectors = TOTAL_SUPER_SIZE // 512
     partition_count = len(PARTITIONS)
@@ -52,10 +80,10 @@ def build_super():
     partition_table_size = len(partition_table)
     partition_table_crc = crc32(partition_table)
 
-    # Corrected struct format string to match 16 items
+    # Build super header (struct lp_super_partition)
     # Format: 4s (magic), H (major), H (minor), H (header_size), I (crc), I (part_count), I (block_size), Q (sectors), I (slots), I (max_size), 12s (res), I (table_off), I (table_size), I (table_crc), I (res2), 4s (geom)
     header_without_crc = struct.pack(
-        "<4sHHHIIQII12sIIII4s",
+        "<4sHHHIIIQII12sIIII4s",
         struct.pack("<I", LP_MAGIC),
         LP_MAJOR_VERSION,
         LP_MINOR_VERSION,
@@ -83,6 +111,7 @@ def build_super():
     with open(output_path, "wb") as f:
         f.write(header)
         f.write(partition_table)
+        f.write(extents)
         for data in images:
             f.write(data)
             remainder = len(data) % BLOCK_SIZE
