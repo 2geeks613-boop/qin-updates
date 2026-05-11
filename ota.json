@@ -1,6 +1,5 @@
- {
-       "version": 1,
-       "name": "Qin-Custom-V1",
-       "url": "https://github.com/YOUR_USERNAME/qin-updates/releases/download/v1.0/system.img",
-       "hash": "0000000000000000000000000000000000000000000000000000000000000000"
- }
+{
+  "version": 2,
+  "hash": "8a38fa846797ea7d50db108ac420efe6b88f93e194cb5e4d8ec036590352334b",
+  "url": "https://github.com/2geeks613-boop/qin-updates/releases/download/v2/system_modified.img"
+}
