@@ -96,3 +96,7 @@ def build_super():
 
 if __name__ == "__main__":
     build_super()
+    # To test the output image, run:
+    #   lpdump /mnt/t7_storage/QIN/super_modified.bin
+    # or check the magic bytes:
+    #   xxd /mnt/t7_storage/QIN/super_modified.bin | head -1
