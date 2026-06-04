@@ -1,12 +1,12 @@
 {
   "response": [
     {
-      "datetime": 1817506000,
-      "filename": "lineage-18.1-freedom.zip",
-      "id": "1817506000",
+      "datetime": 1817506999,
+      "filename": "freedom_v6.img",
+      "id": "556057d8086c0ee028102b49cb58615888c6f1049e00dd15ea6db959597b61bd",
       "romtype": "unofficial",
-      "size": 1929379840,
-      "url": "https://github.com/2geeks613-boop/qin-updates/releases/download/v4/system_modified.img",
+      "size": 2348650496,
+      "url": "https://github.com/2geeks613-boop/qin-updates/releases/download/v6/freedom.img",
       "version": "18.1",
       "device": "phhgsi_arm64_ab"
     }
