@@ -1,5 +1,13 @@
 {
-  "version": 4,
-  "hash": "f1239469c07685479de8a26fbe8fceb9798c6bcad5d5deb044c846888aa51486",
-  "url": "https://github.com/2geeks613-boop/qin-updates/releases/download/v4/system_modified.img"
+  "response": [
+    {
+      "datetime": 1717506000,
+      "filename": "freedom_v5.img",
+      "id": "f1239469c07685479de8a26fbe8fceb9798c6bcad5d5deb044c846888aa51486",
+      "romtype": "nightly",
+      "size": 1929379840,
+      "url": "https://github.com/2geeks613-boop/qin-updates/releases/download/v4/system_modified.img",
+      "version": "18.1"
+    }
+  ]
 }
