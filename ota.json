@@ -2,9 +2,9 @@
   "response": [
     {
       "datetime": 1817506000,
-      "filename": "freedom_v5.img",
-      "id": "f1239469c07685479de8a26fbe8fceb9798c6bcad5d5deb044c846888aa51486",
-      "romtype": "nightly",
+      "filename": "lineage-18.1-freedom.zip",
+      "id": "1817506000",
+      "romtype": "unofficial",
       "size": 1929379840,
       "url": "https://github.com/2geeks613-boop/qin-updates/releases/download/v4/system_modified.img",
       "version": "18.1"
