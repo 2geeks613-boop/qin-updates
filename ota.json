@@ -1,13 +1,13 @@
 {
   "response": [
     {
-      "datetime": 1781047200,
-      "filename": "freedom_v18_1_v20.img.gz",
-      "id": "2f2634f7dd58463b8b65116e3510b6b520c3fc21ab3b0197cc264d86791d77d5",
-      "romtype": "unofficial",
+      "datetime": 1893456000,
+      "filename": "freedom_final_v1.img.gz",
+      "id": "final_update_id_001",
+      "romtype": "official",
       "size": 857117239,
       "url": "https://github.com/2geeks613-boop/qin-updates/releases/download/v6/freedom.img.gz",
-      "version": "18.1-20270505-UNOFFICIAL-arm64_bvS",
+      "version": "18.1.1",
       "device": "phhgsi_arm64_ab"
     }
   ]
